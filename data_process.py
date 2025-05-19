@@ -50,5 +50,5 @@ data = pd.DataFrame()
 file_path = "/home/ylqiu/datamining/part-00000.parquet"
 df = pd.read_parquet(file_path, engine='pyarrow')
 df['item_list'] = df['item_list'].apply(lambda x: get_category(x))
-df.to_parquet("/home/ylqiu/datamining/part-00000simpleRQ1.parquet")
+df.to_parquet("/home/ylqiu/datamining_filter/part-00000simpleRQ1.parquet")
 print(time.time()-time1)

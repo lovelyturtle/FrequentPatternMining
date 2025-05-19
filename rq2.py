@@ -1,12 +1,16 @@
 import pandas as pd
-import time
+import time, os
 from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori, association_rules
 
 time1=time.time()
-data = pd.DataFrame()
-file_path = "/home/ylqiu/datamining/part-00001simpleRQ1.parquet"
-df = pd.read_parquet(file_path, engine='pyarrow')
+folder_path = '/home/ylqiu/datamining_filter/'
+parquet_files = [f for f in os.listdir(folder_path) if f.endswith('.parquet')]
+df = pd.DataFrame()
+for file in parquet_files:
+    file_path = os.path.join(folder_path, file)
+    data = pd.read_parquet(file_path, engine='pyarrow')
+    df=pd.concat([df, data])
 
 def create_transaction(row):
     return [str(row['item_list']), "支付方式_"+row['purchase_method']]

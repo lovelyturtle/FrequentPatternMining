@@ -1,12 +1,19 @@
 import pandas as pd
-import time
+import time, os
 from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori, association_rules
 
 time1=time.time()
-data = pd.DataFrame()
-file_path = "/home/ylqiu/datamining/part-00001simpleRQ1.parquet"
-df = pd.read_parquet(file_path, engine='pyarrow')
+folder_path = '/home/ylqiu/datamining_filter/'
+parquet_files = [f for f in os.listdir(folder_path) if f.endswith('.parquet')]
+
+# 初始化空的DataFrame用于存储数据
+df = pd.DataFrame()
+for file in parquet_files:
+    file_path = os.path.join(folder_path, file)
+    data = pd.read_parquet(file_path, engine='pyarrow')
+    df=pd.concat([df, data])
+
 transactions = df['item_list'].tolist()
 
 # 使用TransactionEncoder进行one-hot编码
